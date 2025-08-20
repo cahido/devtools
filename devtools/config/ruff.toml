@@ -1,0 +1,57 @@
+line-length = 96
+lint.select = [
+    "A",
+    "ARG",
+    "B",
+    "C",
+    "DTZ",
+    "E",
+    "EM",
+    "F",
+    "FBT",
+    "I",
+    "ICN",
+    "ISC",
+    "N",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+    "Q",
+    "RUF",
+    "S",
+    "T",
+    "TID",
+    "UP",
+    "W",
+    "YTT",
+]
+lint.ignore = [
+    # Allow boolean arguments
+    "FBT001",
+    "FBT002",
+    "FBT003",
+    "C901",  # Ignore complexity
+    "E501",  # ignore line length, let black handle formatting
+    "B008",  # we want to call methods from fastapi endpoints fairly often
+    "PLR0911",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "S101",  # Asserts have purpose
+    "S310",  # Audit URL open for permitted schemes
+    "DTZ006",  # Dealing with timezones is really annoying
+    "DTZ007",  # Dealing with timezones is really annoying
+]
+exclude = ["tests/data", ".venv", "build", "dist", ".git", "scripts"]
+
+[lint.per-file-ignores]
+"**/*tests/**.py" = [
+    "PLR2004",  # allow magic values in tests (expecially in asserts)
+    "TID252",
+    "ARG001",  # allow unused arguments (fixtures)
+    "N806",  # allow non-lowercase local variables in test functions
+    "S105",  # I can use passwords in my tests all I like!
+    "PLC0415",  # I can import stuff wherever I want!
+    "B011",  # assert False in tests
+]

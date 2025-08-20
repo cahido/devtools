@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.zip
+.env
+
+.venv/
+.idea/
+.vscode/
+**.egg-info/
+
+~$*
+generated/
+.coverage

@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "devtools"
+version = "0.0.0"
+description = "Generic devtools for client / infrastructure development"
+authors = ["Dennis Hilhorst <dhilhorst2000@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+click = "^8.2.1"
+
+# black and ruff are ACTUAL dependencies, since they are needed to run the 'lint' subcommand
+black = "^25.1.0"
+ruff = "^0.12.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+devtools = "devtools.__main__:main"
