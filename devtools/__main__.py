@@ -4,7 +4,7 @@ from pathlib import Path
 import click
 
 from .log import init_log, logger
-from .utils import get_black_toml, get_ruff_toml, run_command
+from .utils import get_black_toml, get_mypy_ini, get_ruff_toml, run_command
 
 
 @click.group()
@@ -58,7 +58,7 @@ def lint(
     )
 
 
-lint: click.Group
+lint: click.Group  # type: ignore
 
 
 @lint.command()
@@ -80,6 +80,19 @@ def fix(cfg: LintConfig):
         ["ruff", "check", ".", "--fix", "--config", str(cfg.ruff_toml.absolute())]
     )
     run_command(["black", ".", "--config", str(cfg.black_toml.absolute())])
+
+
+@main.command()
+@click.option(
+    "--mypy-ini",
+    "mypy_ini",
+    default=None,
+    type=click.Path(exists=True, file_okay=True, dir_okay=False, path_type=Path),
+    help="mypy.ini configuration file",
+)
+def typecheck(mypy_ini: Path | None = None):
+    mypy_ini = mypy_ini or get_mypy_ini()
+    run_command(["mypy", ".", "--config-file", str(mypy_ini.absolute())])
 
 
 if __name__ == "__main__":

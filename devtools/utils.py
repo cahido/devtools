@@ -8,11 +8,13 @@ DEVTOOLS_DIR = Path(__file__).parent
 CONFIG_DIR = DEVTOOLS_DIR / "config"
 BLACK_TOML = CONFIG_DIR / "black.toml"
 RUFF_TOML = CONFIG_DIR / "ruff.toml"
+MYPY_INI = CONFIG_DIR / "mypy.ini"
 
 assert DEVTOOLS_DIR.is_dir()
 assert CONFIG_DIR.is_dir()
 assert BLACK_TOML.is_file()
 assert RUFF_TOML.is_file()
+assert MYPY_INI.is_file()
 
 
 def run_command(cmd: list[str]):
@@ -36,3 +38,7 @@ def get_ruff_toml(root: Path = Path.cwd()) -> Path:
 
 def get_black_toml(root: Path = Path.cwd()) -> Path:
     return _find_file(BLACK_TOML.name, root=root) or BLACK_TOML
+
+
+def get_mypy_ini(root: Path = Path.cwd()) -> Path:
+    return _find_file(MYPY_INI.name, root=root) or MYPY_INI

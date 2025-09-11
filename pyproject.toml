@@ -12,6 +12,7 @@ click = "^8.2.1"
 # black and ruff are ACTUAL dependencies, since they are needed to run the 'lint' subcommand
 black = "^25.1.0"
 ruff = "^0.12.7"
+mypy = "^1.17.1"
 
 [build-system]
 requires = ["poetry-core"]
