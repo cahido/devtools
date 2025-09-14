@@ -72,6 +72,8 @@ lint: click.Group  # type: ignore
 def check(cfg: LintConfig):
     """Run a lint check, WITHOUT fixing things, return with a non-zero exit code if any lint
     check fails."""
+    run_command(["black", "--version"])
+    run_command(["ruff", "--version"])
     run_command(["ruff", "check", ".", "--config", str(cfg.ruff_toml.absolute())])
     run_command(
         ["black", "--check", "--diff", ".", "--config", str(cfg.black_toml.absolute())]
@@ -82,6 +84,8 @@ def check(cfg: LintConfig):
 @click.pass_obj
 def fix(cfg: LintConfig):
     """Attempt to fix as many lint checks as possible"""
+    run_command(["black", "--version"])
+    run_command(["ruff", "--version"])
     run_command(
         ["ruff", "check", ".", "--fix", "--config", str(cfg.ruff_toml.absolute())]
     )
@@ -98,6 +102,7 @@ def fix(cfg: LintConfig):
 )
 def typecheck(mypy_ini: Path | None = None):
     mypy_ini = mypy_ini or get_mypy_ini()
+    run_command(["mypy", "--version"])
     run_command(
         [
             "mypy",
