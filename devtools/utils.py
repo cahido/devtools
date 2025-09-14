@@ -2,6 +2,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import tomllib
+
 from .log import logger
 
 DEVTOOLS_DIR = Path(__file__).parent
@@ -42,3 +44,38 @@ def get_black_toml(root: Path = Path.cwd()) -> Path:
 
 def get_mypy_ini(root: Path = Path.cwd()) -> Path:
     return _find_file(MYPY_INI.name, root=root) or MYPY_INI
+
+
+def get_package_name_from_pyproject(
+    pyproject_path: Path = Path("pyproject.toml"),
+) -> str:
+    """
+    Reads the package name from the pyproject.toml in the current working directory.
+
+    Args:
+        pyproject_path: Path to pyproject.toml (default: "pyproject.toml").
+
+    Returns:
+        str: The package name defined in [project.name] or [tool.poetry.name].
+
+    Raises:
+        FileNotFoundError: If pyproject.toml does not exist.
+        ValueError: If the name field cannot be found.
+    """
+    if not pyproject_path.is_file():
+        msg = f"{pyproject_path} not found in {Path.cwd()}"
+        raise FileNotFoundError(msg)
+
+    with pyproject_path.open("rb") as f:
+        data = tomllib.load(f)
+
+    # PEP 621: standard location
+    if "project" in data and "name" in data["project"]:
+        return data["project"]["name"]
+
+    # Poetry-specific fallback
+    if "tool" in data and "poetry" in data["tool"] and "name" in data["tool"]["poetry"]:
+        return data["tool"]["poetry"]["name"]
+
+    msg = f"Package name not found in {pyproject_path}"
+    raise ValueError(msg)

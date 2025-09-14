@@ -4,7 +4,13 @@ from pathlib import Path
 import click
 
 from .log import init_log, logger
-from .utils import get_black_toml, get_mypy_ini, get_ruff_toml, run_command
+from .utils import (
+    get_black_toml,
+    get_mypy_ini,
+    get_package_name_from_pyproject,
+    get_ruff_toml,
+    run_command,
+)
 
 
 @click.group()
@@ -92,7 +98,15 @@ def fix(cfg: LintConfig):
 )
 def typecheck(mypy_ini: Path | None = None):
     mypy_ini = mypy_ini or get_mypy_ini()
-    run_command(["mypy", ".", "--config-file", str(mypy_ini.absolute())])
+    run_command(
+        [
+            "mypy",
+            "-p",
+            get_package_name_from_pyproject(),
+            "--config-file",
+            str(mypy_ini.absolute()),
+        ]
+    )
 
 
 if __name__ == "__main__":
