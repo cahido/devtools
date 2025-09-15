@@ -110,6 +110,7 @@ def typecheck(mypy_ini: Path | None = None):
             get_package_name_from_pyproject(),
             "--config-file",
             str(mypy_ini.absolute()),
+            "--no-namespace-packages",
         ]
     )
 
