@@ -19,7 +19,7 @@ assert RUFF_TOML.is_file()
 assert MYPY_INI.is_file()
 
 
-def run_command(cmd: list[str]):
+def run_command(cmd: list[str]) -> None:
     """Run a command with subprocess, and check for a non-zero exit code"""
     logger.info(f"Running command: {' '.join(cmd)}")
     result = subprocess.run(cmd, check=False)  # noqa: S603
@@ -70,12 +70,15 @@ def get_package_name_from_pyproject(
         data = tomllib.load(f)
 
     # PEP 621: standard location
+    name: str
     if "project" in data and "name" in data["project"]:
-        return data["project"]["name"]
+        name = data["project"]["name"]
+        return name
 
     # Poetry-specific fallback
     if "tool" in data and "poetry" in data["tool"] and "name" in data["tool"]["poetry"]:
-        return data["tool"]["poetry"]["name"]
+        name = data["tool"]["poetry"]["name"]
+        return name
 
     msg = f"Package name not found in {pyproject_path}"
     raise ValueError(msg)

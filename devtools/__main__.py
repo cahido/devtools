@@ -22,7 +22,7 @@ from .utils import (
     ),
     help="Set the logging level.",
 )
-def main(log_level: str):
+def main(log_level: str) -> None:
     """Main CLI group."""
     init_log(log_level)
     logger.debug("Logging initialized.")
@@ -54,7 +54,7 @@ def lint(
     ctx: click.Context,
     ruff_toml: Path | None = None,
     black_toml: Path | None = None,
-):
+) -> None:
     ctx.obj = LintConfig(
         ruff_toml=ruff_toml or get_ruff_toml(),
         black_toml=black_toml or get_black_toml(),
@@ -69,7 +69,7 @@ lint: click.Group  # type: ignore
 
 @lint.command()
 @click.pass_obj
-def check(cfg: LintConfig):
+def check(cfg: LintConfig) -> None:
     """Run a lint check, WITHOUT fixing things, return with a non-zero exit code if any lint
     check fails."""
     run_command(["black", "--version"])
@@ -82,7 +82,7 @@ def check(cfg: LintConfig):
 
 @lint.command()
 @click.pass_obj
-def fix(cfg: LintConfig):
+def fix(cfg: LintConfig) -> None:
     """Attempt to fix as many lint checks as possible"""
     run_command(["black", "--version"])
     run_command(["ruff", "--version"])
@@ -100,7 +100,7 @@ def fix(cfg: LintConfig):
     type=click.Path(exists=True, file_okay=True, dir_okay=False, path_type=Path),
     help="mypy.ini configuration file",
 )
-def typecheck(mypy_ini: Path | None = None):
+def typecheck(mypy_ini: Path | None = None) -> None:
     mypy_ini = mypy_ini or get_mypy_ini()
     run_command(["mypy", "--version"])
     run_command(
