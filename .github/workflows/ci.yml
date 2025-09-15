@@ -1,0 +1,19 @@
+name: "CI"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_call:
+
+permissions:
+  contents: write
+
+jobs:
+  ci:
+    name: "Lint and test"
+    uses: cahido/actions/.github/workflows/lint-and-test.yml@main
+    with:
+      python-version: "3.12"
+    secrets: inherit
