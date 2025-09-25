@@ -1,25 +1,20 @@
-[tool.poetry]
+[project]
 name = "devtools"
 version = "0.0.0"
 description = "Generic devtools for client / infrastructure development"
-authors = ["Dennis Hilhorst <dhilhorst2000@gmail.com>"]
+authors = [{ name = "Dennis Hilhorst", email = "dhilhorst2000@gmail.com" }]
+requires-python = "~=3.12"
 readme = "README.md"
+dependencies = [
+    "click>=8.2.1,<9",
+    "black>=25.1.0,<26",
+    "ruff>=0.12.7,<0.13",
+    "mypy>=1.17.1,<2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-click = "^8.2.1"
-
-# black and ruff are ACTUAL dependencies, since they are needed to run the 'lint' subcommand
-black = "^25.1.0"
-ruff = "^0.12.7"
-mypy = "^1.17.1"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.2"
+[dependency-groups]
+dev = ["pytest>=8.4.2,<9"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-devtools = "devtools.__main__:main"
+requires = ["uv-build"]
+build-backend = "uv_build"
